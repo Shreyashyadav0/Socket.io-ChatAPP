@@ -1,0 +1,23 @@
+{
+  "name": "socket.io-chatapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shreyashyadav0/Socket.io-ChatAPP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shreyashyadav0/Socket.io-ChatAPP/issues"
+  },
+  "homepage": "https://github.com/Shreyashyadav0/Socket.io-ChatAPP#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.5.4"
+  }
+}
