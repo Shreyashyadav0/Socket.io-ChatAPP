@@ -43,3 +43,57 @@ socket.on("updateChat", function(username, data){
       chatDisplay.scrollTop = chatDisplay.scrollHeight;// we want to display the chat at the bottom
 
     });
+    socket.on("updateUsers", function (usernames) {
+        userlist.innerHTML = "";
+        console.log("usernames returned from server", usernames);
+        for (var user in usernames) {
+          userlist.innerHTML += `<div class="user_card">
+                                    <div class="pic"></div>
+                                    <span>${user}</span>
+                                  </div>`;
+        }
+      });
+      
+      socket.on("updateRooms", function (rooms, newRoom) {
+        roomlist.innerHTML = "";
+      
+        for (var index in rooms) {
+          roomlist.innerHTML += `<div class="room_card" id="${rooms[index].name}"
+                                      onclick="changeRoom('${rooms[index].name}')">
+                                      <div class="room_item_content">
+                                          <div class="pic"></div>
+                                          <div class="roomInfo">
+                                          <span class="room_name">#${rooms[index].name}</span>
+                                          <span class="room_author">${rooms[index].creator}</span>
+                                          </div>
+                                      </div>
+                                  </div>`;
+        }
+      
+        document.getElementById(currentRoom).classList.add("active_item");
+      });
+      
+      function changeRoom(room) {
+        if (room != currentRoom) {
+          socket.emit("updateRooms", room);
+          document.getElementById(currentRoom).classList.remove("active_item");
+          currentRoom = room;
+          document.getElementById(currentRoom).classList.add("active_item");
+        }
+      }
+      socket.on("updateRooms", function (room) {
+        socket.broadcast
+          .to(socket.currentRoom)
+          .emit("updateChat", "INFO", socket.username + " left room");
+        socket.leave(socket.currentRoom);
+        socket.currentRoom = room;
+        socket.join(room);
+        socket.emit("updateChat", "INFO", "You have joined " + room + " room");
+        socket.broadcast
+          .to(room)
+          .emit(
+            "updateChat",
+            "INFO",
+            socket.username + " has joined " + room + " room"
+          );
+      });

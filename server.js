@@ -29,9 +29,13 @@ io.on("connection", function(socket){ // we have to write everything in io.on in
         io.sockets.to(socket.currentRoom).emit("updateChat", socket.username, data)
     })//  as well we used out global io and send the message to to perticular
    //room
+
+
+socket.on("updateRooms", function(room){
+    socket.broadcast 
+    .to (socket.currentRoom)
 })
-
-
+})
 
 server.listen(4000,function() {
     console.log('server is running at port 4000');
